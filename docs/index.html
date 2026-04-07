@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Noto Sans KR',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px;line-height:1.7}
+  a{color:#58a6ff;text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 32px 80px}
+
+  /* HERO */
+  .hero{text-align:center;padding:56px 0 48px;border-bottom:1px solid #21262d;margin-bottom:48px}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:#161b22;border:1px solid #30363d;color:#f0883e;font-size:11px;font-weight:500;padding:4px 14px;border-radius:20px;margin-bottom:20px;letter-spacing:.5px}
+  .hero-dot{width:6px;height:6px;background:#f0883e;border-radius:50%}
+  .hero h1{font-size:48px;font-weight:900;letter-spacing:-2px;margin-bottom:8px;line-height:1.1}
+  .hero h1 .acc{color:#f0883e}
+  .hero-sub{font-size:16px;color:#8b949e;margin-bottom:6px}
+  .hero-quote{font-size:13px;color:#484f58;font-style:italic;margin-bottom:28px}
+  .badge-row{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+  .badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+  .b-kotlin{background:#1c1f2e;border:1px solid #7c6fcd;color:#7c6fcd}
+  .b-spring{background:#1a2318;border:1px solid #6db33f;color:#6db33f}
+  .b-kafka{background:#1e1a10;border:1px solid #f0883e;color:#f0883e}
+  .b-redis{background:#1e1010;border:1px solid #ff4b4b;color:#ff4b4b}
+  .b-mysql{background:#101828;border:1px solid #00aff0;color:#00aff0}
+  .b-aws{background:#1a1610;border:1px solid #ff9900;color:#ff9900}
+
+  /* TOC */
+  .toc{background:#161b22;border:1px solid #21262d;border-radius:12px;padding:20px 24px;margin-bottom:40px}
+  .toc-title{font-size:12px;color:#8b949e;font-weight:500;letter-spacing:.5px;margin-bottom:12px}
+  .toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 24px}
+  .toc-item{font-size:13px;color:#58a6ff;padding:2px 0;display:flex;align-items:center;gap:6px}
+  .toc-item::before{content:'';width:4px;height:4px;background:#f0883e;border-radius:50%;flex-shrink:0}
+
+  /* SECTION */
+  .sec{margin-bottom:48px}
+  .sec-title{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #21262d;letter-spacing:-.5px}
+  .sec-icon{font-size:18px}
+
+  /* CALLOUT */
+  .callout{background:#161b22;border-left:3px solid #f0883e;border-radius:0 10px 10px 0;padding:14px 18px;margin-bottom:16px}
+  .callout-label{font-size:10px;color:#f0883e;font-weight:500;letter-spacing:.5px;margin-bottom:5px}
+  .callout p{font-size:13px;color:#8b949e;line-height:1.7}
+  .callout b{color:#e6edf3}
+
+  /* PROBLEM TABLE */
+  .prob-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .prob-table th{background:#161b22;padding:10px 14px;text-align:left;font-size:11px;color:#8b949e;font-weight:500;letter-spacing:.3px;border-bottom:1px solid #21262d}
+  .prob-table td{padding:10px 14px;font-size:12.5px;border-bottom:1px solid #161b22;vertical-align:top}
+  .prob-table td:first-child{color:#ff7b72}
+  .prob-table td:last-child{color:#3fb950}
+  .prob-table tr:last-child td{border-bottom:none}
+  .prob-table tr:hover td{background:#161b22}
+
+  /* FEATURE CARDS */
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .feat-card{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px}
+  .feat-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:#f0883e;background:#1e1a10;border:1px solid #3a2a10;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+  .feat-title{font-size:13px;font-weight:700;margin-bottom:5px}
+  .feat-desc{font-size:12px;color:#8b949e;line-height:1.6}
+
+  /* STATE MACHINE */
+  .state-wrap{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin-bottom:12px}
+  .state-label{font-size:10px;color:#8b949e;font-family:'JetBrains Mono',monospace;margin-bottom:10px}
+  .state-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+  .state{font-family:'JetBrains Mono',monospace;font-size:11px;padding:4px 10px;border-radius:5px;white-space:nowrap}
+  .s-active{background:#1c2a1c;border:1px solid #3fb950;color:#3fb950}
+  .s-end{background:#1c2d1c;border:1px solid #56d364;color:#56d364}
+  .s-bad{background:#2a1c1c;border:1px solid #ff7b72;color:#ff7b72}
+  .s-arrow{color:#484f58;font-size:14px}
+
+  /* SCORE FORMULA */
+  .formula{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin-bottom:12px}
+  .formula pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;color:#e6edf3}
+  .fc{color:#484f58}.fv{color:#79c0ff}.fo{color:#f0883e}.fg{color:#3fb950}.fp{color:#d2a8ff}
+
+  /* STACK TABLE */
+  .stack-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .stack-table th{background:#161b22;padding:9px 14px;text-align:left;font-size:11px;color:#8b949e;font-weight:500;letter-spacing:.3px;border-bottom:1px solid #21262d}
+  .stack-table td{padding:9px 14px;font-size:12.5px;border-bottom:1px solid #161b22;vertical-align:top;color:#8b949e}
+  .stack-table td:first-child{color:#e6edf3;font-weight:500;width:120px}
+  .stack-table tr:last-child td{border-bottom:none}
+  .stack-table tr:hover td{background:#161b22}
+  .stag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:4px;margin-right:4px}
+
+  /* ARCH */
+  .arch{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:20px;margin-bottom:12px}
+  .arch pre{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.8;color:#8b949e;overflow-x:auto}
+  .arch pre .hl{color:#f0883e}
+  .arch pre .hg{color:#3fb950}
+  .arch pre .hb{color:#58a6ff}
+
+  /* CODE */
+  .code{background:#0d1117;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin-bottom:12px;overflow-x:auto}
+  .code-header{font-size:11px;color:#8b949e;font-family:'JetBrains Mono',monospace;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .code-lang{background:#21262d;padding:2px 8px;border-radius:4px;color:#f0883e}
+  .code pre{font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.8;color:#e6edf3}
+  .kw{color:#ff7b72}.fn{color:#d2a8ff}.st{color:#a5d6ff}.cm{color:#484f58}.nu{color:#f0883e}.kl{color:#7ee787}
+
+  /* SERVICE TABLE */
+  .svc-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .svc-table th{background:#161b22;padding:9px 14px;text-align:left;font-size:11px;color:#8b949e;font-weight:500;border-bottom:1px solid #21262d}
+  .svc-table td{padding:9px 14px;font-size:12.5px;border-bottom:1px solid #161b22;color:#8b949e}
+  .svc-table td:first-child{font-family:'JetBrains Mono',monospace;color:#58a6ff;font-size:12px}
+  .svc-table td:nth-child(2){color:#e6edf3;font-weight:500}
+  .svc-table tr:last-child td{border-bottom:none}
+  .svc-table tr:hover td{background:#161b22}
+  .dev-only{background:#1e1a10;color:#f0883e;border:1px solid #3a2a10;font-size:10px;padding:1px 6px;border-radius:4px;font-weight:500;margin-left:6px}
+
+  /* KAFKA EVENTS */
+  .event-list{background:#161b22;border:1px solid #21262d;border-radius:10px;padding:16px 20px;margin-bottom:12px}
+  .event-row{display:flex;align-items:flex-start;gap:12px;padding:6px 0;border-bottom:1px solid #21262d;font-size:12.5px}
+  .event-row:last-child{border-bottom:none}
+  .event-topic{font-family:'JetBrains Mono',monospace;color:#f0883e;font-size:11px;min-width:280px;flex-shrink:0}
+  .event-desc{color:#8b949e}
+  .event-arrow{color:#484f58;flex-shrink:0}
+
+  /* API TABLE */
+  .api-table{width:100%;border-collapse:collapse;margin-bottom:12px}
+  .api-table th{background:#161b22;padding:8px 12px;text-align:left;font-size:11px;color:#8b949e;font-weight:500;border-bottom:1px solid #21262d}
+  .api-table td{padding:8px 12px;font-size:12.5px;border-bottom:1px solid #161b22;font-family:'JetBrains Mono',monospace;font-size:12px}
+  .api-table td:last-child{font-family:'Noto Sans KR',sans-serif;color:#8b949e;font-size:12px}
+  .api-table tr:last-child td{border-bottom:none}
+  .api-table tr:hover td{background:#161b22}
+  .method{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;min-width:44px;text-align:center}
+  .m-post{background:#1a2918;color:#3fb950;border:1px solid #2a4a28}
+  .m-get{background:#101c28;color:#58a6ff;border:1px solid #1a3048}
+  .m-patch{background:#1e1810;color:#f0883e;border:1px solid #3a2a10}
+  .m-delete{background:#2a1010;color:#ff7b72;border:1px solid #4a1a1a}
+
+  /* PERF TABLE */
+  .perf-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+  .perf-table th{background:#161b22;padding:9px 14px;text-align:center;font-size:11px;color:#8b949e;font-weight:500;border-bottom:1px solid #21262d}
+  .perf-table th:first-child{text-align:left}
+  .perf-table td{padding:9px 14px;font-size:12.5px;border-bottom:1px solid #161b22;text-align:center;color:#8b949e}
+  .perf-table td:first-child{text-align:left;color:#e6edf3;font-weight:500}
+  .perf-table tr:last-child td{border-bottom:none}
+  .pending{color:#f0883e;font-style:italic;font-size:11px}
+
+  /* FOOTER */
+  .footer{margin-top:48px;padding-top:24px;border-top:1px solid #21262d;text-align:center}
+  .footer p{font-size:12px;color:#484f58;margin-bottom:4px}
+  .footer .name{font-size:20px;font-weight:900;letter-spacing:-1px;color:#e6edf3}
+  .footer .name span{color:#f0883e}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge"><div class="hero-dot"></div>BACKEND PORTFOLIO PROJECT</div>
+    <h1>Ba<span class="acc">ton</span></h1>
+    <p class="hero-sub">바로 통하는 중고거래</p>
+    <p class="hero-quote">"당근의 구조적 문제를 기술로 해결한 중고거래 플랫폼"</p>
+    <div class="badge-row">
+      <span class="badge b-kotlin">Kotlin</span>
+      <span class="badge b-spring">Spring Boot</span>
+      <span class="badge b-mysql">MySQL</span>
+      <span class="badge b-redis">Redis</span>
+      <span class="badge b-kafka">Kafka</span>
+      <span class="badge b-aws">AWS</span>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-title">TABLE OF CONTENTS</div>
+    <div class="toc-grid">
+      <div class="toc-item">서비스 소개</div>
+      <div class="toc-item">핵심 기술 구현</div>
+      <div class="toc-item">왜 만들었나</div>
+      <div class="toc-item">API 명세</div>
+      <div class="toc-item">핵심 기능</div>
+      <div class="toc-item">실행 방법</div>
+      <div class="toc-item">기술 스택</div>
+      <div class="toc-item">성능 테스트</div>
+      <div class="toc-item">시스템 아키텍처</div>
+      <div class="toc-item">MSA 서비스 구성</div>
+    </div>
+  </div>
+
+  <!-- 1. 서비스 소개 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">💡</span> 서비스 소개</div>
+    <div class="callout">
+      <div class="callout-label">BATON</div>
+      <p><b>바통(Baton)</b>은 기존 중고거래 플랫폼의 구조적 문제를 기술로 해결하는 중고거래 서비스입니다.<br>
+      채팅으로만 이루어지는 가격 협상, 조작 가능한 신뢰 점수, 패널티 없는 약속 파기를 오퍼 시스템 · 행동 기반 신뢰 점수 · 노쇼 감지로 해결합니다.</p>
+    </div>
+    <div class="formula">
+      <pre><span class="fc">// 이름의 의미</span>
+<span class="fo">바통(Baton)</span> = <span class="kl">바</span>로 <span class="kl">통</span>하는 거래
+            = 릴레이 바통처럼 채팅 합의 <span class="fc">→</span> 결제로 흐름을 넘긴다</pre>
+    </div>
+  </div>
+
+  <!-- 2. 왜 만들었나 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">🎯</span> 왜 만들었나</div>
+    <div class="callout">
+      <div class="callout-label">FROM 당근마켓 커머스팀 소개</div>
+      <p>"기존 당근의 거래를 <b>신뢰할 수 있는 결제 구조로 전환</b>하고, 스토어를 고객에게 명확히 인식시키고, 당근 스토어만의 정체성과 브랜드 가치를 강화하는 여정의 시작점에 있어요."</p>
+    </div>
+    <table class="prob-table">
+      <thead><tr><th>기존 플랫폼의 문제</th><th>바통의 해결 방식</th></tr></thead>
+      <tbody>
+        <tr><td>채팅 네고 → 찔러보기 진상, 기록 없음</td><td>오퍼 시스템 → 모든 협상이 구조화되고 이벤트로 기록됨</td></tr>
+        <tr><td>매너온도(별점) → 보복 신고로 조작 가능</td><td>행동 데이터 기반 신뢰 점수 → 시스템이 자동 계산</td></tr>
+        <tr><td>노쇼 시 비매너 신고 한 번 → 실질 제재 없음</td><td>노쇼 누적 → 점수 차감 + 기능 자동 제한</td></tr>
+        <tr><td>사기 탐지 AI 오작동 → 정상 판매자 피해</td><td>행동 패턴 기반 룰 엔진 → 오탐율 감소</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. 핵심 기능 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">⚡</span> 핵심 기능</div>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <span class="feat-num">FEAT 01</span>
+        <div class="feat-title">구조화된 오퍼 시스템</div>
+        <div class="feat-desc">채팅 네고를 오퍼 객체로 구조화. 모든 협상이 이벤트로 기록되고, 수락 시 거래 예약 자동 생성. 취소 시 신뢰 점수 반영.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-num">FEAT 02</span>
+        <div class="feat-title">행동 기반 신뢰 점수</div>
+        <div class="feat-desc">별점 대신 응답률·약속이행률·취소율·신고이력을 가중치 기반으로 자동 계산. 점수 구간별 오퍼 기능 제한.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-num">FEAT 03</span>
+        <div class="feat-title">거래 예약 + 노쇼 감지</div>
+        <div class="feat-desc">오퍼 수락 시 예약 자동 생성. 30분 전 알림 발송. 노쇼 누적 시 점수 차감 + 기능 자동 제한.</div>
+      </div>
+      <div class="feat-card">
+        <span class="feat-num">FEAT 04</span>
+        <div class="feat-title">커머스 코어 (개발 환경)</div>
+        <div class="feat-desc">결제 멱등성·셀러 정산 배치는 피처 플래그로 프로덕션 비활성화. 아키텍처 완성도와 기술 역량 증명용으로 구현.</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:10px;font-size:12px;color:#8b949e;font-family:'JetBrains Mono',monospace">OFFER STATE MACHINE</div>
+    <div class="state-wrap">
+      <div class="state-flow">
+        <span class="state s-active">PENDING</span><span class="s-arrow">→</span>
+        <span class="state s-active">COUNTER_OFFERED</span><span class="s-arrow">→</span>
+        <span class="state s-active">ACCEPTED</span><span class="s-arrow">→</span>
+        <span class="state s-active">RESERVED</span><span class="s-arrow">→</span>
+        <span class="state s-end">COMPLETED</span>
+        <div style="width:100%;height:1px;background:#21262d;margin:8px 0"></div>
+        <span class="state s-bad">REJECTED</span>
+        <span class="s-arrow" style="margin:0 4px">|</span>
+        <span class="state s-bad">CANCELLED</span>
+        <span class="s-arrow" style="margin:0 4px">|</span>
+        <span class="state s-bad">EXPIRED</span>
+        <span class="s-arrow" style="margin:0 4px">|</span>
+        <span class="state s-bad">NO_SHOW</span>
+      </div>
+    </div>
+
+    <div style="margin:16px 0 10px;font-size:12px;color:#8b949e;font-family:'JetBrains Mono',monospace">TRUST SCORE FORMULA</div>
+    <div class="formula">
+      <pre><span class="cm">// 신뢰 점수 계산 공식</span>
+<span class="fn">TrustScore</span> =
+  appointmentRate * <span class="fo">0.30</span>  <span class="cm">// 약속 이행률 (가장 중요)</span>
+  completionRate  * <span class="fo">0.25</span>  <span class="cm">// 거래 완료율</span>
+  responseRate    * <span class="fo">0.20</span>  <span class="cm">// 응답률</span>
+  cancelPenalty   * <span class="fo">0.15</span>  <span class="cm">// 오퍼 취소 패널티</span>
+  reportPenalty   * <span class="fo">0.10</span>  <span class="cm">// 신고 누적 패널티</span>
+
+<span class="cm">// 점수 구간별 기능 제한</span>
+<span class="kl">80+</span>    EXCELLENT  → 제한 없음
+<span class="kl">60~79</span>  GOOD       → 일 오퍼 5회 제한
+<span class="kl">40~59</span>  NORMAL     → 일 오퍼 2회 + 경고 표시
+<span class="kl">40 미만</span> WARNING   → 오퍼 발신 불가</pre>
+    </div>
+  </div>
+
+  <!-- 4. 기술 스택 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">🛠</span> 기술 스택</div>
+    <table class="stack-table">
+      <thead><tr><th>영역</th><th>기술</th><th>선택 이유</th></tr></thead>
+      <tbody>
+        <tr><td>언어</td><td><span class="stag b-kotlin">Kotlin 1.9</span></td><td>sealed class로 오퍼 상태 컴파일 타임 완전성 검사. Null safety, 코루틴</td></tr>
+        <tr><td>프레임워크</td><td><span class="stag b-spring">Spring Boot 3.2</span></td><td>Spring State Machine, @Transactional 원자성, Spring Batch 정산</td></tr>
+        <tr><td>데이터베이스</td><td><span class="stag b-mysql">MySQL 8.0</span></td><td>InnoDB Row-level 락, 트랜잭션 격리 수준 활용, 이벤트 소싱 테이블</td></tr>
+        <tr><td>캐시 · 락</td><td><span class="stag b-redis">Redis + Redisson</span></td><td>분산 락(결제 중복 방지), 신뢰 점수 캐싱 (TTL 1h), 멱등키 저장</td></tr>
+        <tr><td>메시지 큐</td><td><span class="stag b-kafka">Kafka 3.6</span></td><td>도메인 이벤트 비동기 처리, 이벤트 소싱, 서비스 간 결합도 최소화</td></tr>
+        <tr><td>배치</td><td><span class="stag b-spring">Spring Batch 5.0</span></td><td>정산 Chunk 처리, 실패 청크만 재시도, 분산 환경 잡 중복 방지</td></tr>
+        <tr><td>인프라</td><td><span class="stag b-aws">AWS EC2 · RDS · ElastiCache</span></td><td>실서비스 배포. 당근 인프라 환경(AWS)과 동일</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 5. 시스템 아키텍처 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">🏗</span> 시스템 아키텍처</div>
+    <div class="arch">
+      <pre>
+                    ┌──────────────────────────────────┐
+                    │          <span class="hl">baton-gateway</span>           │
+                    │     Spring Cloud Gateway          │
+                    │   JWT 검증 / 라우팅 / 로깅          │
+                    └───────────────┬──────────────────┘
+                                    │
+         ┌──────────┬──────────┬────┴────┬──────────┬──────────┐
+         ▼          ▼          ▼         ▼          ▼          ▼
+    ┌─────────┐┌─────────┐┌─────────┐┌─────────┐┌─────────┐┌─────────┐
+    │  <span class="hb">auth</span>   ││ <span class="hb">product</span> ││  <span class="hl">offer</span>  ││ <span class="hl">reserv-</span> ││  <span class="hl">trust</span>  ││ <span class="hl">payment</span> │
+    │  :8081  ││  :8082  ││  :8083  ││ <span class="hl">ation</span>   ││  :8085  ││  :8086  │
+    │         ││         ││         ││  :8084  ││         ││ dev only│
+    └────┬────┘└────┬────┘└────┬────┘└────┬────┘└────┬────┘└────┬────┘
+         └──────────┴──────────┴─────┬────┴──────────┴──────────┘
+                                     │
+             ┌───────────────────────┼──────────────────────┐
+             ▼                       ▼                      ▼
+       ┌──────────┐           ┌──────────┐          ┌──────────┐
+       │  <span class="hb">MySQL</span>   │           │  <span class="hb">Redis</span>   │          │  <span class="hb">Kafka</span>   │
+       │ 서비스별   │           │ 캐시/락   │          │ 이벤트    │
+       │ DB 분리   │           │ 멱등키    │          │ 스트림    │
+       └──────────┘           └──────────┘          └──────────┘</pre>
+    </div>
+  </div>
+
+  <!-- 6. MSA 서비스 구성 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">📦</span> MSA 서비스 구성</div>
+    <table class="svc-table">
+      <thead><tr><th>서비스</th><th>역할</th><th>포트</th></tr></thead>
+      <tbody>
+        <tr><td>baton-gateway</td><td>API Gateway, JWT 검증, 라우팅</td><td>8080</td></tr>
+        <tr><td>baton-auth</td><td>회원가입/로그인, JWT 발급/갱신</td><td>8081</td></tr>
+        <tr><td>baton-product</td><td>상품 등록/조회/검색</td><td>8082</td></tr>
+        <tr><td>baton-offer</td><td>오퍼 시스템, 상태 머신 (핵심)</td><td>8083</td></tr>
+        <tr><td>baton-reservation</td><td>거래 예약, 노쇼 감지</td><td>8084</td></tr>
+        <tr><td>baton-trust</td><td>신뢰 점수 계산/캐싱 (핵심)</td><td>8085</td></tr>
+        <tr><td>baton-payment</td><td>결제 멱등성, 셀러 정산 배치 <span class="dev-only">dev only</span></td><td>8086</td></tr>
+        <tr><td>baton-common</td><td>공통 DTO, 예외, 유틸</td><td>-</td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin:16px 0 10px;font-size:12px;color:#8b949e">Kafka 이벤트 흐름</div>
+    <div class="event-list">
+      <div class="event-row"><span class="event-topic">baton.offer.offer.accepted</span><span class="event-arrow">→</span><span class="event-desc">reservation 서비스: 거래 예약 자동 생성</span></div>
+      <div class="event-row"><span class="event-topic">baton.offer.offer.accepted</span><span class="event-arrow">→</span><span class="event-desc">trust 서비스: 완료율 지표 업데이트</span></div>
+      <div class="event-row"><span class="event-topic">baton.offer.offer.expired</span><span class="event-arrow">→</span><span class="event-desc">trust 서비스: 만료율 지표 업데이트</span></div>
+      <div class="event-row"><span class="event-topic">baton.reservation.reservation.no-showed</span><span class="event-arrow">→</span><span class="event-desc">trust 서비스: 노쇼 패널티 적용</span></div>
+      <div class="event-row"><span class="event-topic">baton.payment.payment.completed</span><span class="event-arrow">→</span><span class="event-desc">settlement 서비스: 정산 예약 등록 (dev)</span></div>
+    </div>
+  </div>
+
+  <!-- 7. 핵심 기술 구현 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">🔧</span> 핵심 기술 구현</div>
+
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">① 동시성 제어 — 3단 방어 구조</div>
+    <div class="callout">
+      <div class="callout-label">PROBLEM</div>
+      <p>동일 오퍼에 여러 구매자가 동시에 수락 요청을 보내는 경우, 단 한 건만 처리되어야 합니다.</p>
+    </div>
+    <div class="code">
+      <div class="code-header"><span class="code-lang">Kotlin</span> 3단 방어 — Redis 분산 락 → JPA 낙관적 락 → MySQL Row-level 락</div>
+      <pre><span class="kw">fun</span> <span class="fn">acceptOffer</span>(offerId: OfferId, sellerId: UserId) {
+    <span class="cm">// 1단: Redis 분산 락</span>
+    <span class="kw">val</span> lock = redisson.getLock(<span class="st">"offer:${offerId.value}:lock"</span>)
+    lock.lock(<span class="nu">5</span>, TimeUnit.SECONDS)
+    <span class="kw">try</span> {
+        <span class="kw">val</span> offer = loadOfferPort.load(offerId)   <span class="cm">// 2단: @Version 낙관적 락</span>
+        <span class="kw">val</span> accepted = offer.accept(sellerId)     <span class="cm">// 도메인 상태 전환</span>
+        saveOfferPort.save(accepted)              <span class="cm">// 3단: MySQL Row-level 락</span>
+        publishOfferEventPort.publish(OfferAcceptedEvent(accepted))
+    } <span class="kw">finally</span> { lock.unlock() }
+}</pre>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;margin:16px 0 8px">② 이벤트 소싱 — 모든 상태 전환 이력 보존</div>
+    <div class="code">
+      <div class="code-header"><span class="code-lang">Kotlin</span> 오퍼 상태 전환 시마다 이벤트 레코드 append</div>
+      <pre><span class="cm">// 상태 전환 시마다 append-only 이벤트 저장</span>
+<span class="kw">data class</span> <span class="fn">OfferEventRecord</span>(
+    <span class="kw">val</span> eventId: String,
+    <span class="kw">val</span> offerId: String,
+    <span class="kw">val</span> eventType: OfferEventType, <span class="cm">// CREATED, ACCEPTED, REJECTED ...</span>
+    <span class="kw">val</span> actorId: String,
+    <span class="kw">val</span> payload: String,           <span class="cm">// JSON</span>
+    <span class="kw">val</span> occurredAt: LocalDateTime
+)
+<span class="cm">// → 분쟁 시 전체 협상 이력 증거로 활용</span>
+<span class="cm">// → 특정 시점 오퍼 상태 재현 가능</span></pre>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;margin:16px 0 8px">③ 결제 멱등성 — 이중 결제 원천 차단 (개발 환경)</div>
+    <div class="code">
+      <div class="code-header"><span class="code-lang">Kotlin</span> UUID 멱등키 기반 중복 결제 방지</div>
+      <pre><span class="kw">fun</span> <span class="fn">processPayment</span>(request: PaymentRequest): PaymentResult {
+    <span class="cm">// 1. 중복 요청 체크 (Redis)</span>
+    <span class="kw">val</span> cached = redis.get(<span class="st">"payment:${request.idempotencyKey}"</span>)
+    <span class="kw">if</span> (cached != <span class="kw">null</span>) <span class="kw">return</span> cached  <span class="cm">// 동일 요청 → 캐시 반환</span>
+
+    <span class="cm">// 2. 분산 락으로 동시 요청 차단</span>
+    <span class="kw">val</span> lock = redisson.getLock(<span class="st">"lock:${request.idempotencyKey}"</span>)
+    lock.lock()
+    <span class="kw">try</span> {
+        <span class="kw">val</span> result = pgClient.pay(request)
+        redis.set(<span class="st">"payment:${request.idempotencyKey}"</span>, result, TTL_24H)
+        <span class="kw">return</span> result
+    } <span class="kw">finally</span> { lock.unlock() }
+}</pre>
+    </div>
+
+    <div style="font-size:13px;font-weight:700;margin:16px 0 8px">④ 신뢰 점수 캐싱 — Redis + 비동기 재계산</div>
+    <div class="code">
+      <div class="code-header"><span class="code-lang">Kotlin</span> 캐시 히트 우선, 이벤트 수신 시 비동기 재계산</div>
+      <pre><span class="kw">fun</span> <span class="fn">getScore</span>(userId: UserId): TrustScore {
+    <span class="cm">// 1. Redis 캐시 우선 조회</span>
+    <span class="kw">val</span> cached = cacheAdapter.get(userId)
+    <span class="kw">if</span> (cached != <span class="kw">null</span>) <span class="kw">return</span> cached
+
+    <span class="cm">// 2. DB 계산 후 캐시 저장 (TTL 1h)</span>
+    <span class="kw">val</span> score = calculateFromDb(userId)
+    cacheAdapter.set(userId, score, Duration.ofHours(<span class="nu">1</span>))
+    <span class="kw">return</span> score
+}
+
+<span class="cm">// Kafka Consumer: 이벤트 수신 시 캐시 무효화 → 재계산 트리거</span>
+<span class="fn">@KafkaListener</span>(topics = [<span class="st">"baton.reservation.reservation.no-showed"</span>])
+<span class="kw">fun</span> <span class="fn">handleNoShow</span>(event: NoShowEvent) {
+    cacheAdapter.evict(event.userId)  <span class="cm">// 캐시 무효화</span>
+    trustScoreService.applyPenalty(event.userId, PenaltyReason.NO_SHOW)
+}</pre>
+    </div>
+  </div>
+
+  <!-- 8. API 명세 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">📡</span> API 명세</div>
+    <div style="font-size:12px;color:#8b949e;margin-bottom:12px">Swagger UI: <code style="font-family:'JetBrains Mono',monospace;color:#58a6ff">http://localhost:8080/swagger-ui.html</code></div>
+
+    <div style="font-size:12px;font-weight:700;color:#8b949e;margin-bottom:8px;letter-spacing:.3px">OFFER</div>
+    <table class="api-table">
+      <thead><tr><th>Method</th><th>URI</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-post">POST</span></td><td>/api/v1/offers</td><td>오퍼 생성</td></tr>
+        <tr><td><span class="method m-get">GET</span></td><td>/api/v1/offers/{offerId}</td><td>오퍼 단건 조회</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td>/api/v1/offers/{offerId}/accept</td><td>오퍼 수락</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td>/api/v1/offers/{offerId}/reject</td><td>오퍼 거절</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td>/api/v1/offers/{offerId}/counter</td><td>역제안</td></tr>
+        <tr><td><span class="method m-post">POST</span></td><td>/api/v1/offers/{offerId}/cancel</td><td>오퍼 취소</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:12px;font-weight:700;color:#8b949e;margin:16px 0 8px;letter-spacing:.3px">TRUST SCORE</div>
+    <table class="api-table">
+      <thead><tr><th>Method</th><th>URI</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-get">GET</span></td><td>/api/v1/users/{userId}/trust-score</td><td>신뢰 점수 조회</td></tr>
+        <tr><td><span class="method m-get">GET</span></td><td>/api/v1/users/{userId}/trust-score/history</td><td>점수 변동 이력</td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:12px;font-weight:700;color:#8b949e;margin:16px 0 8px;letter-spacing:.3px">PRODUCT</div>
+    <table class="api-table">
+      <thead><tr><th>Method</th><th>URI</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td><span class="method m-post">POST</span></td><td>/api/v1/products</td><td>상품 등록</td></tr>
+        <tr><td><span class="method m-get">GET</span></td><td>/api/v1/products/{productId}</td><td>상품 상세</td></tr>
+        <tr><td><span class="method m-get">GET</span></td><td>/api/v1/products</td><td>상품 목록/검색</td></tr>
+        <tr><td><span class="method m-patch">PATCH</span></td><td>/api/v1/products/{productId}/status</td><td>상품 상태 변경</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 9. 실행 방법 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">🚀</span> 실행 방법</div>
+    <div class="code">
+      <div class="code-header"><span class="code-lang">bash</span> 로컬 실행</div>
+      <pre><span class="cm"># 1. 저장소 클론</span>
+git clone https://github.com/{username}/baton.git && cd baton
+
+<span class="cm"># 2. 환경 변수 설정</span>
+cp .env.example .env
+
+<span class="cm"># 3. 인프라 실행 (MySQL, Redis, Kafka)</span>
+docker-compose up -d
+
+<span class="cm"># 4. 전체 빌드</span>
+./gradlew build
+
+<span class="cm"># 5. 서비스 실행</span>
+./gradlew :baton-gateway:bootRun
+./gradlew :baton-auth:bootRun
+./gradlew :baton-offer:bootRun
+./gradlew :baton-trust:bootRun
+./gradlew :baton-reservation:bootRun
+
+<span class="cm"># 결제 서비스는 개발 환경에서만</span>
+<span class="kl">FEATURE_PAYMENT_ENABLED=true</span> ./gradlew :baton-payment:bootRun</pre>
+    </div>
+  </div>
+
+  <!-- 10. 성능 테스트 -->
+  <div class="sec">
+    <div class="sec-title"><span class="sec-icon">📊</span> 성능 테스트</div>
+    <div class="callout">
+      <div class="callout-label">SCENARIO</div>
+      <p>k6를 사용한 동시 오퍼 수락 시나리오. 동일 오퍼에 1,000명이 동시에 수락 요청을 보냈을 때 단 1건만 처리되는지 검증.</p>
+    </div>
+    <table class="perf-table">
+      <thead><tr><th>지표</th><th>목표</th><th>결과</th></tr></thead>
+      <tbody>
+        <tr><td>중복 수락 발생</td><td>0건</td><td class="pending">실서비스 배포 후 측정 예정</td></tr>
+        <tr><td>P99 응답 시간</td><td>500ms 이하</td><td class="pending">실서비스 배포 후 측정 예정</td></tr>
+        <tr><td>에러율</td><td>1% 이하</td><td class="pending">실서비스 배포 후 측정 예정</td></tr>
+        <tr><td>TPS</td><td>1,000 이상</td><td class="pending">실서비스 배포 후 측정 예정</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="name">Ba<span>ton</span></div>
+    <p style="margin-top:6px">바로 통하는 중고거래 · 당근마켓 커머스팀 포트폴리오</p>
+    <p>Kotlin · Spring Boot · MySQL · Redis · Kafka · AWS</p>
+  </div>
+
+</div>
+</body>
+</html>
